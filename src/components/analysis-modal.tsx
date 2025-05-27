@@ -17,10 +17,10 @@ import {
 } from "lucide-react";
 import type { AnalysisResult } from "@/lib/types";
 import { useState, useEffect } from "react";
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import rehypeRaw from 'rehype-raw';
-import rehypeSanitize from 'rehype-sanitize';
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
+import rehypeSanitize from "rehype-sanitize";
 
 interface AnalysisModalProps {
   analysis: AnalysisResult | null;
@@ -35,7 +35,9 @@ export function AnalysisModal({
 }: AnalysisModalProps) {
   // track image validity and errors; hooks must be called unconditionally
   const [imageError, setImageError] = useState(false);
-  const [validImage, setValidImage] = useState<boolean>(Boolean(analysis?.iconUrl));
+  const [validImage, setValidImage] = useState<boolean>(
+    Boolean(analysis?.iconUrl),
+  );
   useEffect(() => {
     const url = analysis?.iconUrl;
     if (!url) {
@@ -44,10 +46,10 @@ export function AnalysisModal({
     }
     setValidImage(true);
     setImageError(false);
-    fetch(url, { method: 'HEAD' })
-      .then(res => {
-        const ct = res.headers.get('content-type')?.toLowerCase() || '';
-        if (ct.startsWith('text/html')) setValidImage(false);
+    fetch(url, { method: "HEAD" })
+      .then((res) => {
+        const ct = res.headers.get("content-type")?.toLowerCase() || "";
+        if (ct.startsWith("text/html")) setValidImage(false);
       })
       .catch(() => {});
   }, [analysis?.iconUrl]);
@@ -131,7 +133,7 @@ export function AnalysisModal({
                   <img
                     src={analysis.iconUrl}
                     alt={`${analysis.product || analysis.company} logo`}
-                    className="object-cover w-full h-full"
+                    className="object-cover"
                     onError={() => setImageError(true)}
                   />
                 ) : (
@@ -231,15 +233,19 @@ export function AnalysisModal({
                           </Badge>
                         </div>
                         <ReactMarkdown
-                          children={flag.text}
                           remarkPlugins={[remarkGfm]}
                           rehypePlugins={[rehypeRaw, rehypeSanitize]}
                           components={{
-                            p: ({ node, ...props }) => (
-                              <p className="text-gray-200 leading-relaxed" {...props} />
+                            p: ({ ...props }) => (
+                              <p
+                                className="text-gray-200 leading-relaxed"
+                                {...props}
+                              />
                             ),
                           }}
-                        />
+                        >
+                          {flag.text}
+                        </ReactMarkdown>
                       </div>
                     </div>
                   </div>

@@ -8,9 +8,11 @@ interface SearchFormProps {
   isLoading: boolean;
   searchType: "company" | "product";
   onTypeChange: (type: "company" | "product") => void;
+  /** hide the type toggle (use when toggle rendered externally) */
+  hideToggle?: boolean;
 }
 
-export function SearchForm({ onSearch, isLoading, searchType, onTypeChange }: SearchFormProps) {
+export function SearchForm({ onSearch, isLoading, searchType, onTypeChange, hideToggle = false }: SearchFormProps) {
   const [company, setCompany] = useState("");
   const [product, setProduct] = useState("");
   const [url, setUrl] = useState("");
@@ -32,24 +34,26 @@ export function SearchForm({ onSearch, isLoading, searchType, onTypeChange }: Se
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto shadow-xl rounded-lg p-6">
+    <div className="w-full max-w-2xl mx-auto bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-2xl shadow-2xl p-8">
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="flex space-x-2 bg-zinc-800 rounded">
-        {(["company", "product"] as const).map((type) => (
-            <button
-              key={type}
-              type="button"
-              onClick={() => onTypeChange(type)}
-              className={`flex-1 py-2 text-center font-medium rounded ${
-                searchType === type
-                  ? "bg-zinc-600 text-white"
-                  : "text-gray-400 hover:bg-zinc-600"
-              }`}
-            >
-              {type === "company" ? "Company Analysis" : "Product Analysis"}
-            </button>
-          ))}
-        </div>
+        {!hideToggle && (
+          <div className="flex space-x-2 bg-zinc-800 rounded">
+            {(["company", "product"] as const).map((type) => (
+              <button
+                key={type}
+                type="button"
+                onClick={() => onTypeChange(type)}
+                className={`flex-1 py-2 text-center font-medium rounded ${
+                  searchType === type
+                    ? "bg-zinc-600 text-white"
+                    : "text-gray-400 hover:bg-zinc-600"
+                }`}
+              >
+                {type === "company" ? "Company Analysis" : "Product Analysis"}
+              </button>
+            ))}
+          </div>
+        )}
         {searchType === "company" ? (
           <div className="space-y-2">
             <label htmlFor="company-name" className="block text-gray-400">
@@ -117,7 +121,7 @@ export function SearchForm({ onSearch, isLoading, searchType, onTypeChange }: Se
             !company.trim() ||
             (searchType === "product" && !product.trim())
           }
-          className="w-full bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full py-3 font-semibold rounded-lg text-white bg-gradient-to-r from-blue-500 to-green-400 hover:from-blue-600 hover:to-green-500 transform transition hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading ? "Analyzing..." : "Analyze Terms & Privacy"}
         </button>

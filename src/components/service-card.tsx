@@ -6,10 +6,10 @@ import { Badge } from "@/components/ui/badge";
 import { AlertTriangle, Shield, AlertCircle, CheckCircle } from "lucide-react";
 import type { AnalysisResult } from "@/lib/types";
 import { useState, useEffect } from "react";
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import rehypeRaw from 'rehype-raw';
-import rehypeSanitize from 'rehype-sanitize';
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
+import rehypeSanitize from "rehype-sanitize";
 
 interface ServiceCardProps {
   analysis: AnalysisResult;
@@ -65,16 +65,18 @@ export function ServiceCard({ analysis, onViewDetails }: ServiceCardProps) {
   const getSeverityBg = (severity: "high" | "medium" | "low") => {
     switch (severity) {
       case "high":
-        return "bg-red-900/20 border-red-900/30";
+        return "bg-red-500/20 border-red-900/90";
       case "medium":
-        return "bg-yellow-900/20 border-yellow-900/30";
+        return "bg-yellow-500/20 border-yellow-900/90";
       case "low":
-        return "bg-blue-900/20 border-blue-900/30";
+        return "bg-blue-500/20 border-blue-900/90";
     }
   };
 
   const [imageError, setImageError] = useState(false);
-  const [validImage, setValidImage] = useState<boolean>(Boolean(analysis.iconUrl));
+  const [validImage, setValidImage] = useState<boolean>(
+    Boolean(analysis.iconUrl),
+  );
   // On URL change, reset validity and error; reject only if HEAD indicates an HTML page
   useEffect(() => {
     const url = analysis.iconUrl;
@@ -96,7 +98,7 @@ export function ServiceCard({ analysis, onViewDetails }: ServiceCardProps) {
       });
   }, [analysis.iconUrl]);
   return (
-    <Card className="w-full bg-gray-900 border-gray-800 text-white">
+    <Card className="w-full bg-gray-900 border-gray-800 text-white flex flex-col h-full">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
@@ -131,7 +133,7 @@ export function ServiceCard({ analysis, onViewDetails }: ServiceCardProps) {
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 flex flex-col flex-1">
         <div className="space-y-2">
           {analysis.redFlags.slice(0, 4).map((flag, index) => (
             <div
@@ -141,15 +143,19 @@ export function ServiceCard({ analysis, onViewDetails }: ServiceCardProps) {
               <div className="flex items-start space-x-2">
                 {getSeverityIcon(flag.severity)}
                 <ReactMarkdown
-                  children={flag.text}
                   remarkPlugins={[remarkGfm]}
                   rehypePlugins={[rehypeRaw, rehypeSanitize]}
                   components={{
-                    p: ({ node, ...props }) => (
-                      <p className="text-sm text-gray-200 leading-relaxed" {...props} />
+                    p: ({ ...props }) => (
+                      <p
+                        className="text-sm text-gray-200 leading-relaxed"
+                        {...props}
+                      />
                     ),
                   }}
-                />
+                >
+                  {flag.text}
+                </ReactMarkdown>
               </div>
             </div>
           ))}
@@ -172,7 +178,7 @@ export function ServiceCard({ analysis, onViewDetails }: ServiceCardProps) {
           )}
         </div>
 
-        <div className="flex space-x-2 pt-2">
+        <div className="flex space-x-2 pt-2 mt-auto">
           <Button
             variant="default"
             size="sm"

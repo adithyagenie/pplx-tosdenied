@@ -156,12 +156,60 @@ export function HomeClient({
             Perplexity can fix that.
           </p>
         </div>
-        <div className="mb-8">
+        {/* Toggle control for Company/Product */}
+        <div className="flex justify-center mb-8">
+          {(["company", "product"] as const).map((type) => (
+            <button
+              key={type}
+              type="button"
+              onClick={() => setSearchType(type)}
+              className={`mx-2 px-8 py-4 text-lg font-semibold rounded-lg transition-transform transform ${
+                searchType === type
+                  ? "bg-gradient-to-r from-green-400 to-blue-500 text-white shadow-lg hover:shadow-xl hover:scale-105"
+                  : "bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white"
+              }`}
+            >
+              {type === "company" ? "Company Analysis" : "Product Analysis"}
+            </button>
+          ))}
+        </div>
+        {/* Featured section */}
+        <div className="mb-12 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-2">
+            Featured Analysis
+          </h2>
+          <div className="flex flex-col items-center text-center text-gray-400 mb-6 max-w-xl mx-auto space-y-4">
+            <span>See our curated analysis examples below or</span>
+            <a
+              href="#search-form"
+              className="px-5 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform transition hover:scale-105"
+            >
+              Try Your Own&nbsp;&rarr;
+            </a>
+          </div>
+          <ResultsGrid
+            results={
+              (searchType === "company" ? seededCompany : seededProduct).slice(0, 3)
+            }
+            onViewDetails={handleViewDetails}
+          />
+        </div>
+        {/* search section header and form */}
+        <div id="search-form" className="mb-12">
+          <div className="text-center mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
+              Analyze Your Own
+            </h2>
+            <p className="text-gray-400 text-lg">
+              Enter a company or product to generate a quick analysis.
+            </p>
+          </div>
           <SearchForm
             onSearch={handleSearch}
             isLoading={isLoading}
             searchType={searchType}
             onTypeChange={setSearchType}
+            hideToggle
           />
         </div>
         {isLoading && (
@@ -196,57 +244,27 @@ export function HomeClient({
           </div>
         )}
         <div className="mb-12">
-          {searchType === "company" && (
-            <>
-              {companyGenerations.length > 0 && (
-                <div className="mb-6">
-                  <h3 className="text-xl font-semibold mb-2 text-center">
-                    Your Analyses
-                  </h3>
-                  <ResultsGrid
-                    results={companyGenerations}
-                    onViewDetails={handleViewDetails}
-                  />
-                </div>
-              )}
-              {seededCompany.length > 0 && (
-                <div>
-                  <h3 className="text-xl font-semibold mb-2 text-center">
-                    Featured Analyses
-                  </h3>
-                  <ResultsGrid
-                    results={seededCompany}
-                    onViewDetails={handleViewDetails}
-                  />
-                </div>
-              )}
-            </>
+          {searchType === "company" && companyGenerations.length > 0 && (
+            <div className="mb-6 text-center">
+              <h2 className="text-3xl md:text-4xl font-bold mb-2">
+                Your Analyses
+              </h2>
+              <ResultsGrid
+                results={companyGenerations}
+                onViewDetails={handleViewDetails}
+              />
+            </div>
           )}
-          {searchType === "product" && (
-            <>
-              {productGenerations.length > 0 && (
-                <div className="mb-6">
-                  <h3 className="text-xl font-semibold mb-2 text-center">
-                    Your Analyses
-                  </h3>
-                  <ResultsGrid
-                    results={productGenerations}
-                    onViewDetails={handleViewDetails}
-                  />
-                </div>
-              )}
-              {seededProduct.length > 0 && (
-                <div>
-                  <h3 className="text-xl font-semibold mb-2 text-center">
-                    Featured Analyses
-                  </h3>
-                  <ResultsGrid
-                    results={seededProduct}
-                    onViewDetails={handleViewDetails}
-                  />
-                </div>
-              )}
-            </>
+          {searchType === "product" && productGenerations.length > 0 && (
+            <div className="mb-6 text-center">
+              <h2 className="text-3xl md:text-4xl font-bold mb-2">
+                Your Analyses
+              </h2>
+              <ResultsGrid
+                results={productGenerations}
+                onViewDetails={handleViewDetails}
+              />
+            </div>
           )}
         </div>
         <AnalysisModal

@@ -11,7 +11,7 @@ export default async function HomePage() {
     .sort({ createdAt: -1 })
     .toArray();
 
-  let randomPicked: WithId<CachedAnalysis>[] = [];
+  const randomPicked: WithId<CachedAnalysis>[] = [];
   let companyPick = 0,
     productPick = 0;
   while (companyPick < 3 || productPick < 3) {
