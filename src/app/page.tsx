@@ -6,6 +6,7 @@ import { ResultsGrid } from "@/components/results-grid";
 import type { AnalysisResult, SearchFormData } from "@/lib/types";
 import { toast } from "sonner";
 import { AnalysisModal } from "@/components/analysis-modal";
+import { RotatingText } from "@/components/rotating-text";
 
 export default function HomePage() {
   const [results, setResults] = useState<AnalysisResult[]>([]);
@@ -100,16 +101,26 @@ export default function HomePage() {
         </div>
 
         {/* Search Form */}
-        <div className="mb-12">
+        <div className="mb-8">
           <SearchForm onSearch={handleSearch} isLoading={isLoading} />
         </div>
 
         {/* Loading State */}
         {isLoading && (
-          <div className="text-center py-12">
+          <div className="text-center py-8">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
             <p className="mt-4 text-gray-400">
-              Analyzing terms and privacy policies...
+              <RotatingText
+                texts={[
+                  "Analyzing terms...",
+                  "Analyzing privacy policies...",
+                  "Reviewing terms...",
+                  "Reviewing privacy policies...",
+                  "Consolidating results....",
+                  "Grading policies...",
+                  "Identifying red flags...",
+                ]}
+              />
             </p>
           </div>
         )}

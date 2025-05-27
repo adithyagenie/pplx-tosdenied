@@ -92,255 +92,213 @@ export interface SearchFormData {
 //   consumer_friendliness_grade?: "S" | "A" | "B" | "C" | null;
 // }
 
-export const ProductAnalysisOutputSchema = `
-{
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "additionalProperties": false,
-    "definitions": {
-        "RedFlagItem": {
-            "additionalProperties": false,
-            "properties": {
-                "concern_level": {
-                    "description": "Order of concern, 1 being most concerning.",
-                    "type": "number"
-                },
-                "description": {
-                    "description": "A very short, simple explanation of the red flag (1-2 sentences, everyday words).",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "concern_level",
-                "description"
-            ],
-            "type": "object"
-        }
+export const ProductAnalysisOutputSchema = {
+  $schema: "http://json-schema.org/draft-07/schema#",
+  additionalProperties: false,
+  definitions: {
+    RedFlagItem: {
+      additionalProperties: false,
+      properties: {
+        concern_level: {
+          description: "Order of concern, 1 being most concerning.",
+          type: "number",
+        },
+        description: {
+          description:
+            "A very short, simple explanation of the red flag (1-2 sentences, everyday words).",
+          type: "string",
+        },
+      },
+      required: ["concern_level", "description"],
+      type: "object",
     },
-    "properties": {
-        "analyzed_for": {
-            "const": "product",
-            "description": "Specifies that the analysis is for a product.",
-            "type": "string"
-        },
-        "company_name": {
-            "description": "The name of the company that makes the product.",
-            "type": "string"
-        },
-        "consumer_friendliness_grade": {
-            "anyOf": [
-                {
-                    "enum": [
-                        "A",
-                        "B",
-                        "C",
-                        "S"
-                    ],
-                    "type": "string"
-                },
-                {
-                    "type": "null"
-                }
-            ],
-            "description": "Overall consumer-friendliness grade (S, A, B, C). Null if policies were not found."
-        },
-        "entity_name": {
-            "description": "The name of the product analyzed.",
-            "type": "string"
-        },
-        "icon_url": {
-            "description": "A publicly accessible URL for the product logo/icon, or null if not found.",
-            "type": [
-                "null",
-                "string"
-            ]
-        },
-        "input_url_provided": {
-            "description": "The policy page URL provided by the user for analysis, if any.",
-            "type": [
-                "null",
-                "string"
-            ]
-        },
-        "policies_found": {
-            "description": "True if policies were found and analyzed, false otherwise.",
-            "type": "boolean"
-        },
-        "privacy_policy_url": {
-            "description": "The direct URL of the Privacy Policy document found, or null.",
-            "type": [
-                "null",
-                "string"
-            ]
-        },
-        "red_flags": {
-            "anyOf": [
-                {
-                    "items": {
-                        "$ref": "#/definitions/RedFlagItem"
-                    },
-                    "type": "array"
-                },
-                {
-                    "type": "null"
-                }
-            ],
-            "description": "A list of red flags, ordered from most to least concerning by concern_level. Null if policies were not found."
-        },
-        "suggestions_if_not_found": {
-            "anyOf": [
-                {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                }
-            ],
-            "description": "Suggested alternatives or a message if policies were not found at the provided URL. Null if policies were found."
-        },
-        "tos_url": {
-            "description": "The direct URL of the Terms of Service document found, or null.",
-            "type": [
-                "null",
-                "string"
-            ]
-        }
+  },
+  properties: {
+    analyzed_for: {
+      const: "product",
+      description: "Specifies that the analysis is for a product.",
+      type: "string",
     },
-    "required": [
-        "analyzed_for",
-        "company_name",
-        "entity_name",
-        "policies_found"
-    ],
-    "type": "object"
-}
-`;
+    company_name: {
+      description: "The name of the company that makes the product.",
+      type: "string",
+    },
+    consumer_friendliness_grade: {
+      anyOf: [
+        {
+          enum: ["A", "B", "C", "S"],
+          type: "string",
+        },
+        {
+          type: "null",
+        },
+      ],
+      description:
+        "Overall consumer-friendliness grade (S, A, B, C). Null if policies were not found.",
+    },
+    entity_name: {
+      description: "The name of the product analyzed.",
+      type: "string",
+    },
+    icon_url: {
+      description:
+        "A publicly accessible URL for the product logo/icon, or null if not found.",
+      type: ["null", "string"],
+    },
+    input_url_provided: {
+      description:
+        "The policy page URL provided by the user for analysis, if any.",
+      type: ["null", "string"],
+    },
+    policies_found: {
+      description: "True if policies were found and analyzed, false otherwise.",
+      type: "boolean",
+    },
+    privacy_policy_url: {
+      description:
+        "The direct URL of the Privacy Policy document found, or null.",
+      type: ["null", "string"],
+    },
+    red_flags: {
+      anyOf: [
+        {
+          items: {
+            $ref: "#/definitions/RedFlagItem",
+          },
+          type: "array",
+        },
+        {
+          type: "null",
+        },
+      ],
+      description:
+        "A list of red flags, ordered from most to least concerning by concern_level. Null if policies were not found.",
+    },
+    suggestions_if_not_found: {
+      anyOf: [
+        {
+          items: {
+            type: "string",
+          },
+          type: "array",
+        },
+        {
+          type: ["null", "string"],
+        },
+      ],
+      description:
+        "Suggested alternatives or a message if policies were not found at the provided URL. Null if policies were found.",
+    },
+    tos_url: {
+      description:
+        "The direct URL of the Terms of Service document found, or null.",
+      type: ["null", "string"],
+    },
+  },
+  required: ["analyzed_for", "company_name", "entity_name", "policies_found"],
+  type: "object",
+};
 
-export const CompanyAnalysisOutputSchema = `
-{
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "additionalProperties": false,
-    "definitions": {
-        "RedFlagItem": {
-            "additionalProperties": false,
-            "properties": {
-                "concern_level": {
-                    "description": "Order of concern, 1 being most concerning.",
-                    "type": "number"
-                },
-                "description": {
-                    "description": "A very short, simple explanation of the red flag (1-2 sentences, everyday words).",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "concern_level",
-                "description"
-            ],
-            "type": "object"
-        }
+export const CompanyAnalysisOutputSchema = {
+  $schema: "http://json-schema.org/draft-07/schema#",
+  additionalProperties: false,
+  definitions: {
+    RedFlagItem: {
+      additionalProperties: false,
+      properties: {
+        concern_level: {
+          description: "Order of concern, 1 being most concerning.",
+          type: "number",
+        },
+        description: {
+          description:
+            "A very short, simple explanation of the red flag (1-2 sentences, everyday words).",
+          type: "string",
+        },
+      },
+      required: ["concern_level", "description"],
+      type: "object",
     },
-    "properties": {
-        "analyzed_for": {
-            "const": "company",
-            "description": "Specifies that the analysis is for a company's general policies.",
-            "type": "string"
-        },
-        "consumer_friendliness_grade": {
-            "anyOf": [
-                {
-                    "enum": [
-                        "A",
-                        "B",
-                        "C",
-                        "S"
-                    ],
-                    "type": "string"
-                },
-                {
-                    "type": "null"
-                }
-            ],
-            "description": "Overall consumer-friendliness grade (S, A, B, C). Null if policies were not found."
-        },
-        "entity_name": {
-            "description": "The name of the company analyzed.",
-            "type": "string"
-        },
-        "icon_url": {
-            "description": "A publicly accessible URL for the company logo/icon, or null if not found.",
-            "type": [
-                "null",
-                "string"
-            ]
-        },
-        "input_url_provided": {
-            "description": "The policy page URL provided by the user for analysis, if any.",
-            "type": [
-                "null",
-                "string"
-            ]
-        },
-        "policies_found": {
-            "description": "True if policies were found and analyzed, false otherwise.",
-            "type": "boolean"
-        },
-        "privacy_policy_url": {
-            "description": "The direct URL of the Privacy Policy document found, or null.",
-            "type": [
-                "null",
-                "string"
-            ]
-        },
-        "red_flags": {
-            "anyOf": [
-                {
-                    "items": {
-                        "$ref": "#/definitions/RedFlagItem"
-                    },
-                    "type": "array"
-                },
-                {
-                    "type": "null"
-                }
-            ],
-            "description": "A list of red flags, ordered from most to least concerning by concern_level. Null if policies were not found."
-        },
-        "suggestions_if_not_found": {
-            "anyOf": [
-                {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                }
-            ],
-            "description": "Suggested alternatives or a message if policies were not found at the provided URL. Null if policies were found."
-        },
-        "tos_url": {
-            "description": "The direct URL of the Terms of Service document found, or null.",
-            "type": [
-                "null",
-                "string"
-            ]
-        }
+  },
+  properties: {
+    analyzed_for: {
+      const: "company",
+      description:
+        "Specifies that the analysis is for a company's general policies.",
+      type: "string",
     },
-    "required": [
-        "analyzed_for",
-        "entity_name",
-        "policies_found"
-    ],
-    "type": "object"
-}
-`;
+    consumer_friendliness_grade: {
+      anyOf: [
+        {
+          enum: ["A", "B", "C", "S"],
+          type: "string",
+        },
+        {
+          type: "null",
+        },
+      ],
+      description:
+        "Overall consumer-friendliness grade (S, A, B, C). Null if policies were not found.",
+    },
+    entity_name: {
+      description: "The name of the company analyzed.",
+      type: "string",
+    },
+    icon_url: {
+      description:
+        "A publicly accessible URL for the company logo/icon, or null if not found.",
+      type: ["null", "string"],
+    },
+    input_url_provided: {
+      description:
+        "The policy page URL provided by the user for analysis, if any.",
+      type: ["null", "string"],
+    },
+    policies_found: {
+      description: "True if policies were found and analyzed, false otherwise.",
+      type: "boolean",
+    },
+    privacy_policy_url: {
+      description:
+        "The direct URL of the Privacy Policy document found, or null.",
+      type: ["null", "string"],
+    },
+    red_flags: {
+      anyOf: [
+        {
+          items: {
+            $ref: "#/definitions/RedFlagItem",
+          },
+          type: "array",
+        },
+        {
+          type: "null",
+        },
+      ],
+      description:
+        "A list of red flags, ordered from most to least concerning by concern_level. Null if policies were not found.",
+    },
+    suggestions_if_not_found: {
+      anyOf: [
+        {
+          items: {
+            type: "string",
+          },
+          type: "array",
+        },
+        {
+          type: ["null", "string"],
+        },
+      ],
+      description:
+        "Suggested alternatives or a message if policies were not found at the provided URL. Null if policies were found.",
+    },
+    tos_url: {
+      description:
+        "The direct URL of the Terms of Service document found, or null.",
+      type: ["null", "string"],
+    },
+  },
+  required: ["analyzed_for", "entity_name", "policies_found"],
+  type: "object",
+};

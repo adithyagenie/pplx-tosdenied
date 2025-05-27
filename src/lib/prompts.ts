@@ -18,7 +18,7 @@ You are an AI assistant specialized in analyzing Terms of Service (TOS) and Priv
     *   **Strict Focus:** Your analysis MUST be confined ONLY to the policies for this specific product from this specific company.
     *   **Exclusion:** Do NOT search for or analyze the company's general policies (unless they are explicitly the *only* policies governing this specific product), related products, other products from the same company, or different companies, unless the provided URL clearly indicates these are the applicable documents.
 
-2.  **Search for Icon:** Search for a publicly accessible URL for a logo or icon representing the product "\`${product}\`". If a suitable, publicly accessible URL is found, use it. If not, this value will be \`null\`.
+2.  **Search for Icon:** Search for a publicly accessible URL for a logo or icon representing the product "\`${product}\`". If a suitable, publicly accessible URL which is a direct url to the image is found, use it. If not, this value will be \`null\`.
 
 3.  **Existence Check & Initial JSON Structure:**
     *   **If Policies Not Found (even after checking provided URL if any):** Your entire output MUST be a JSON object matching the schema below, with \`policies_found\` set to \`false\`, \`tos_url\` and \`privacy_policy_url\` set to \`null\`, \`red_flags\` and \`consumer_friendliness_grade\` set to \`null\`, and \`suggestions_if_not_found\` populated.
@@ -89,7 +89,7 @@ You are an AI assistant specialized in analyzing company-wide Terms of Service (
     *   **Strict Focus:** Your analysis MUST be confined ONLY to these overarching company policies.
     *   **Exclusion:** Do NOT analyze policies for specific individual products UNLESS they are the de facto general company policy or the provided URL clearly indicates these are the applicable documents.
 
-2.  **Search for Icon:** Search for a publicly accessible URL for a logo or icon representing the company "\`${company}\`". If a suitable, publicly accessible URL is found, use it. If not, this value will be \`null\`.
+2.  **Search for Icon:** Search for a publicly accessible URL for a logo or icon representing the company "\`${company}\`". If a suitable, publicly accessible URL which is a direct url to the image is found, use it. If not, this value will be \`null\`.
 
 3.  **Existence Check & Initial JSON Structure:**
     *   **If Policies Not Found (even after checking provided URL if any):** Your entire output MUST be a JSON object matching the schema below, with \`policies_found\` set to \`false\`, \`tos_url\` and \`privacy_policy_url\` set to \`null\`, \`red_flags\` and \`consumer_friendliness_grade\` set to \`null\`, and \`suggestions_if_not_found\` populated.

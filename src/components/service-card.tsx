@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { AlertTriangle, Shield, AlertCircle, CheckCircle } from "lucide-react";
 import type { AnalysisResult } from "@/lib/types";
 import Image from "next/image";
+import { useState, useEffect } from "react";
 
 interface ServiceCardProps {
   analysis: AnalysisResult;
@@ -69,17 +70,35 @@ export function ServiceCard({ analysis, onViewDetails }: ServiceCardProps) {
     }
   };
 
+  const [imageError, setImageError] = useState(false);
+  const [validImage, setValidImage] = useState<boolean | null>(null);
+  useEffect(() => {
+    const url = analysis.iconUrl;
+    if (!url) {
+      setValidImage(false);
+      return;
+    }
+    fetch(url, { method: "HEAD" })
+      .then((res) => {
+        const ct = res.headers.get("content-type") || "";
+        setValidImage(res.ok && ct.startsWith("image/"));
+      })
+      .catch(() => setValidImage(false));
+  }, [analysis.iconUrl]);
   return (
     <Card className="w-full bg-gray-900 border-gray-800 text-white">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden bg-gray-800">
-              {analysis.iconUrl ? (
-                <Image
+              {analysis.iconUrl && validImage && !imageError ? (
+                <img
                   src={analysis.iconUrl}
                   alt={`${analysis.product || analysis.company} logo`}
-                  className="w-full h-full object-cover"
+                  width={32}
+                  height={32}
+                  className="object-cover"
+                  onError={() => setImageError(true)}
                 />
               ) : (
                 <span className="text-sm font-bold text-white">

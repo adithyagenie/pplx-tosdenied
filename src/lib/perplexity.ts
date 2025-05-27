@@ -30,16 +30,22 @@ export async function analyzeWithPerplexity(
     `[Perplexity API] Sending request for ${isProductSpecific ? `product: ${product} from ` : ""}company: ${company}`,
   );
 
-  console.log(`[Perplexity API] Prompt: ${prompt}`);
+  // console.log(`[Perplexity API] Prompt: ${prompt}`);
 
   const requestBody = {
-    model: "sonar-deep-research",
+    model: "sonar-reasoning-pro",
     messages: [
       {
         role: "user",
         content: prompt,
       },
     ],
+    response_format: {
+      type: "json_schema",
+      json_schema: {
+        schema: responseJsonSchema,
+      },
+    },
     temperature: 0.4,
     max_tokens: 16384,
   };
@@ -49,12 +55,6 @@ export async function analyzeWithPerplexity(
     model: requestBody.model,
     promptLength: prompt.length,
     temperature: requestBody.temperature,
-    response_format: {
-      type: "json_schema",
-      json_schema: {
-        schema: responseJsonSchema,
-      },
-    },
   });
 
   try {
@@ -79,7 +79,6 @@ export async function analyzeWithPerplexity(
     }
 
     const data = await response.json();
-    console.log(data);
     console.log(
       `[Perplexity API] Response received with ${data.choices?.[0]?.message?.content?.length || 0} characters`,
     );
@@ -92,8 +91,6 @@ export async function analyzeWithPerplexity(
     });
 
     const content = data.choices[0]?.message?.content || "";
-
-    console.log(`[Perplexity API] Response content: ${content}`);
     return parsePerplexityResponse(content, company, product, url);
   } catch (error) {
     console.error(`[Perplexity API] Request faxiled:`, error);
