@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { AlertTriangle, Shield, AlertCircle, CheckCircle } from "lucide-react";
 import type { AnalysisResult } from "@/lib/types";
-import Image from "next/image";
 import { useState, useEffect } from "react";
 
 interface ServiceCardProps {

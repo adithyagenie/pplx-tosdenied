@@ -6,12 +6,11 @@ import type { SearchFormData } from "@/lib/types";
 interface SearchFormProps {
   onSearch: (data: SearchFormData) => void;
   isLoading: boolean;
+  searchType: "company" | "product";
+  onTypeChange: (type: "company" | "product") => void;
 }
 
-export function SearchForm({ onSearch, isLoading }: SearchFormProps) {
-  const [searchType, setSearchType] = useState<"product" | "company">(
-    "company",
-  );
+export function SearchForm({ onSearch, isLoading, searchType, onTypeChange }: SearchFormProps) {
   const [company, setCompany] = useState("");
   const [product, setProduct] = useState("");
   const [url, setUrl] = useState("");
@@ -36,11 +35,11 @@ export function SearchForm({ onSearch, isLoading }: SearchFormProps) {
     <div className="w-full max-w-2xl mx-auto shadow-xl rounded-lg p-6">
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="flex space-x-2 bg-zinc-800 rounded">
-          {(["company", "product"] as const).map((type) => (
+        {(["company", "product"] as const).map((type) => (
             <button
               key={type}
               type="button"
-              onClick={() => setSearchType(type)}
+              onClick={() => onTypeChange(type)}
               className={`flex-1 py-2 text-center font-medium rounded ${
                 searchType === type
                   ? "bg-zinc-600 text-white"

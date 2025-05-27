@@ -1,163 +1,25 @@
-"use client";
+import { getDatabase } from "@/lib/mongodb";
+import type { CachedAnalysis } from "@/lib/types";
+import { HomeClient } from "@/components/home-client";
 
-import { useState } from "react";
-import { SearchForm } from "@/components/search-form";
-import { ResultsGrid } from "@/components/results-grid";
-import type { AnalysisResult, SearchFormData } from "@/lib/types";
-import { toast } from "sonner";
-import { AnalysisModal } from "@/components/analysis-modal";
-import { RotatingText } from "@/components/rotating-text";
-
-export default function HomePage() {
-  const [results, setResults] = useState<AnalysisResult[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [selectedAnalysis, setSelectedAnalysis] =
-    useState<AnalysisResult | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleSearch = async (searchData: SearchFormData) => {
-    setIsLoading(true);
-
-    try {
-      const response = await fetch("/api/analyze", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          company: searchData.company,
-          product: searchData.product,
-          type: searchData.type,
-          url: searchData.url,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to analyze");
-      }
-
-      const analysis: AnalysisResult = await response.json();
-
-      // Add to results, replacing any existing analysis for the same company/product
-      setResults((prev) => {
-        const filtered = prev.filter(
-          (r) =>
-            !(
-              r.company === analysis.company &&
-              r.product === analysis.product &&
-              r.isProductSpecific === analysis.isProductSpecific
-            ),
-        );
-        return [analysis, ...filtered];
-      });
-
-      toast.success(
-        `Successfully analyzed ${analysis.product || analysis.company}`,
-      );
-    } catch (error) {
-      console.error("Search error:", error);
-      toast.error(
-        "Failed to analyze the terms and privacy policy. Please try again.",
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleViewDetails = (analysis: AnalysisResult) => {
-    setSelectedAnalysis(analysis);
-    setIsModalOpen(true);
-  };
-
-  return (
-    <div className="min-h-screen bg-[#1a1a1a] text-white">
-      <main className="container mx-auto px-4 py-12">
-        {/* Hero Section */}
-        <div className="text-center mb-12">
-          <div className="flex justify-center mb-6">
-            <div className="flex flex-col space-y-2">
-              <div className="flex space-x-2">
-                <div className="w-12 h-3 bg-green-500 rounded"></div>
-                <div className="w-12 h-3 bg-yellow-500 rounded"></div>
-              </div>
-              <div className="flex space-x-2">
-                <div className="w-12 h-3 bg-red-500 rounded"></div>
-                <div className="w-12 h-3 bg-gray-500 rounded"></div>
-              </div>
-            </div>
-          </div>
-
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">
-            Terms of Service
-            <br />
-            <span className="text-gray-400">Didn&apos;t Read</span>
-          </h1>
-
-          <p className="text-lg md:text-xl text-gray-400 mb-8 max-w-3xl mx-auto">
-            &quot;I have read and agree to the Terms&quot; and &quot;Your data
-            is safe with us&quot; are the biggest lies on the web. Perplexity
-            can fix that.
-          </p>
-        </div>
-
-        {/* Search Form */}
-        <div className="mb-8">
-          <SearchForm onSearch={handleSearch} isLoading={isLoading} />
-        </div>
-
-        {/* Loading State */}
-        {isLoading && (
-          <div className="text-center py-8">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-            <p className="mt-4 text-gray-400">
-              <RotatingText
-                texts={[
-                  "Searching for terms...",
-                  "Searching for privacy policies...",
-                  "Analyzing terms of service...",
-                  "Analyzing privacy policies...",
-                  "Reviewing terms of service...",
-                  "Reviewing privacy policies...",
-                  "Consolidating results....",
-                  "Grading policies...",
-                  "Identifying red flags...",
-                  "Running deep research...",
-                  "Finding additional sources...",
-                  "Compiling analysis...",
-                  "Preparing results...",
-                  "Finalizing analysis...",
-                  "Almost done...",
-                  "Just a moment...",
-                  "Hang tight...",
-                  "We&apos;re on it...",
-                  "Your results are coming...",
-                  "Processing your request...",
-                ]}
-              />
-            </p>
-          </div>
-        )}
-
-        {/* Results */}
-        {results.length > 0 && (
-          <div className="mb-12">
-            <h2 className="text-2xl font-bold mb-6 text-center">
-              Analysis Results
-            </h2>
-            <ResultsGrid results={results} onViewDetails={handleViewDetails} />
-          </div>
-        )}
-
-        {/* Analysis Modal */}
-        <AnalysisModal
-          analysis={selectedAnalysis}
-          isOpen={isModalOpen}
-          onClose={() => {
-            setIsModalOpen(false);
-            setSelectedAnalysis(null);
-          }}
-        />
-      </main>
-    </div>
-  );
+export default async function HomePage() {
+  const db = await getDatabase();
+  const collection = db.collection<CachedAnalysis>("analyses");
+  const docs = await collection
+    .find({ showOnHomepage: true })
+    .sort({ createdAt: -1 })
+    .toArray();
+  const initialResults = docs.map((doc) => ({
+    company: doc.company,
+    product: doc.product,
+    url: doc.url,
+    tosUrl: doc.tosUrl,
+    privacyPolicyUrl: doc.privacyPolicyUrl,
+    iconUrl: doc.iconUrl,
+    redFlags: doc.redFlags,
+    grade: doc.grade,
+    isProductSpecific: doc.isProductSpecific,
+    analyzedAt: doc.analyzedAt,
+  }));
+  return <HomeClient initialResults={initialResults} />;
 }

@@ -21,11 +21,26 @@ export interface AnalysisResult {
   analyzedAt: Date;
 }
 
+/**
+ * Analysis result serialized for transmission to client components
+ * with analyzedAt as ISO string.
+ */
+export type SerializedAnalysisResult = Omit<AnalysisResult, 'analyzedAt'> & {
+  analyzedAt: string;
+};
+/** Props result returned from the analyze API to client */
+export type ClientAnalysisResult = SerializedAnalysisResult;
+
 export interface CachedAnalysis extends AnalysisResult {
   _id?: string;
+  /** Unique cache key for this analysis */
   cacheKey: string;
+  /** When this record was first created */
   createdAt: Date;
+  /** When this record was last updated */
   updatedAt: Date;
+  /** Whether to show this analysis as a featured popular item on the homepage */
+  showOnHomepage?: boolean;
 }
 
 export interface SearchFormData {
