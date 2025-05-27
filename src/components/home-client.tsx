@@ -7,6 +7,7 @@ import { ResultsGrid } from "@/components/results-grid";
 import { toast } from "sonner";
 import { AnalysisModal } from "@/components/analysis-modal";
 import { RotatingText } from "@/components/rotating-text";
+import { ArrowRight } from "lucide-react";
 
 export function HomeClient({
   initialResults,
@@ -156,6 +157,7 @@ export function HomeClient({
             Perplexity can fix that.
           </p>
         </div>
+
         {/* Toggle control for Company/Product */}
         <div className="flex justify-center mb-8">
           {(["company", "product"] as const).map((type) => (
@@ -184,13 +186,15 @@ export function HomeClient({
               href="#search-form"
               className="px-5 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform transition hover:scale-105"
             >
-              Try Your Own&nbsp;&rarr;
+              Try Your Own&nbsp;
+              <ArrowRight className="inline h-4 w-4" />
             </a>
           </div>
           <ResultsGrid
-            results={
-              (searchType === "company" ? seededCompany : seededProduct).slice(0, 3)
-            }
+            results={(searchType === "company"
+              ? seededCompany
+              : seededProduct
+            ).slice(0, 3)}
             onViewDetails={handleViewDetails}
           />
         </div>
