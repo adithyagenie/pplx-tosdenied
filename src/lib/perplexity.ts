@@ -33,7 +33,7 @@ export async function analyzeWithPerplexity(
   console.log(`[Perplexity API] Prompt: ${prompt}`);
 
   const requestBody = {
-    model: "sonar-reasoning-pro",
+    model: "sonar-deep-research",
     messages: [
       {
         role: "user",
@@ -101,19 +101,34 @@ export async function analyzeWithPerplexity(
   }
 }
 
+// Internal raw response type from Perplexity API before mapping to AnalysisResult
+interface RawPerplexityFlag {
+  concern_level: number;
+  description: string;
+}
+interface RawPerplexityResponse {
+  icon_url?: string | null;
+  tos_url?: string | null;
+  privacy_policy_url?: string | null;
+  policies_found?: boolean;
+  red_flags?: RawPerplexityFlag[];
+  consumer_friendliness_grade?: string | null;
+  [key: string]: unknown;
+}
 function parsePerplexityResponse(
   content: string,
   company: string,
   product?: string,
   url?: string,
 ): AnalysisResult {
-  let parsed: any;
+  let parsed: RawPerplexityResponse;
   try {
-    let parsedJsonString = extractValidJson(content);
-    parsedJsonString = parsedJsonString.replace(/\[\d*?\]/g, "");
-    parsed = JSON.parse(parsedJsonString);
-  } catch (err) {
-    throw new Error(`Failed to parse Perplexity response JSON: ${err}`);
+    let jsonString = extractValidJson(content);
+    jsonString = jsonString.replace(/\[\d*?\]/g, "");
+    parsed = JSON.parse(jsonString) as RawPerplexityResponse;
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
+    throw new Error(`Failed to parse Perplexity response JSON: ${msg}`);
   }
   const isProduct = !!product;
   const inputUrl = url?.trim() || undefined;
@@ -140,8 +155,7 @@ function parsePerplexityResponse(
       analyzedAt: new Date(),
     };
   }
-  const rawFlags: Array<{ concern_level: number; description: string }> =
-    parsed.red_flags || [];
+  const rawFlags: RawPerplexityFlag[] = parsed.red_flags ?? [];
   const redFlags = rawFlags
     .sort((a, b) => a.concern_level - b.concern_level)
     .map((item) => {
@@ -152,7 +166,8 @@ function parsePerplexityResponse(
       else severity = "low";
       return { text: item.description, severity };
     });
-  const gradeValue = parsed.consumer_friendliness_grade;
+  let gradeValue = parsed.consumer_friendliness_grade;
+  if (!gradeValue) gradeValue = "U";
   const grade = ["S", "A", "B", "C"].includes(gradeValue)
     ? (gradeValue as "S" | "A" | "B" | "C")
     : "E";

@@ -1,13 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Header } from "@/components/header";
 import { SearchForm } from "@/components/search-form";
 import { ResultsGrid } from "@/components/results-grid";
 import type { AnalysisResult, SearchFormData } from "@/lib/types";
 import { toast } from "sonner";
 import { AnalysisModal } from "@/components/analysis-modal";
-import { useSonner } from "sonner";
 
 export default function HomePage() {
   const [results, setResults] = useState<AnalysisResult[]>([]);
@@ -72,8 +70,6 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-[#1a1a1a] text-white">
-      {/* <Header /> */}
-
       <main className="container mx-auto px-4 py-12">
         {/* Hero Section */}
         <div className="text-center mb-12">
@@ -93,26 +89,14 @@ export default function HomePage() {
           <h1 className="text-4xl md:text-6xl font-bold mb-4">
             Terms of Service
             <br />
-            <span className="text-gray-400">Didn't Read</span>
+            <span className="text-gray-400">Didn&apos;t Read</span>
           </h1>
 
           <p className="text-lg md:text-xl text-gray-400 mb-8 max-w-3xl mx-auto">
-            "I have read and agree to the Terms" is the biggest lie on the web.
-            <br />
-            Perplexity can fix that.
+            &quot;I have read and agree to the Terms&quot; and &quot;Your data
+            is safe with us&quot; are the biggest lies on the web. Perplexity
+            can fix that.
           </p>
-
-          {/* <div className="text-sm text-gray-500 mb-8">
-            <p>AS FEATURED ON</p>
-            <div className="flex justify-center items-center space-x-6 mt-2 text-gray-600">
-              <span>Waka TIME</span>
-              <span>The Verge</span>
-              <span>Le Monde</span>
-              <span>Zeit Online</span>
-              <span>WIRED</span>
-              <span>strategy+business</span>
-            </div>
-          </div> */}
         </div>
 
         {/* Search Form */}

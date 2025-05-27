@@ -9,7 +9,7 @@ export function generateCacheKey(
   product?: string,
   url?: string,
 ): string {
-  let parts = [company.trim().toLowerCase()];
+  const parts = [company.trim().toLowerCase()];
   if (product) parts.push(product.trim().toLowerCase());
   if (url) parts.push(url.trim().toLowerCase());
   const key = parts.join("-");

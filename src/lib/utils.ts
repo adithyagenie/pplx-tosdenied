@@ -42,7 +42,7 @@ export function extractValidJson(response: string): string {
 
   try {
     return jsonStrToParse;
-  } catch (e: any) {
+  } catch (e: unknown) {
     const originalErrorMessage = e instanceof Error ? e.message : String(e);
     if (idx === -1 && content.trim() !== jsonStrToParse) {
       throw new Error(

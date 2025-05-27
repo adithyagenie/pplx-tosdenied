@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { AlertTriangle, Shield, AlertCircle, CheckCircle } from "lucide-react";
 import type { AnalysisResult } from "@/lib/types";
+import Image from "next/image";
 
 interface ServiceCardProps {
   analysis: AnalysisResult;
@@ -29,22 +30,22 @@ export function ServiceCard({ analysis, onViewDetails }: ServiceCardProps) {
     }
   };
 
-  const getGradeText = (grade: string) => {
-    switch (grade) {
-      case "S":
-        return "Excellent";
-      case "A":
-        return "Good";
-      case "B":
-        return "Fair";
-      case "C":
-        return "Poor";
-      case "E":
-        return "Very Poor";
-      default:
-        return "Unknown";
-    }
-  };
+  // const getGradeText = (grade: string) => {
+  //   switch (grade) {
+  //     case "S":
+  //       return "Excellent";
+  //     case "A":
+  //       return "Good";
+  //     case "B":
+  //       return "Fair";
+  //     case "C":
+  //       return "Poor";
+  //     case "E":
+  //       return "Very Poor";
+  //     default:
+  //       return "Unknown";
+  //   }
+  // };
 
   const getSeverityIcon = (severity: "high" | "medium" | "low") => {
     switch (severity) {
@@ -75,14 +76,14 @@ export function ServiceCard({ analysis, onViewDetails }: ServiceCardProps) {
           <div className="flex items-center space-x-3">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden bg-gray-800">
               {analysis.iconUrl ? (
-                <img
+                <Image
                   src={analysis.iconUrl}
                   alt={`${analysis.product || analysis.company} logo`}
                   className="w-full h-full object-cover"
                 />
               ) : (
                 <span className="text-sm font-bold text-white">
-                  {(analysis.company || '').charAt(0).toUpperCase()}
+                  {(analysis.company || "").charAt(0).toUpperCase()}
                 </span>
               )}
             </div>

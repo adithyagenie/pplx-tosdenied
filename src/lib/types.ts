@@ -37,60 +37,60 @@ export interface SearchFormData {
   url?: string;
 }
 
-interface RedFlagItem {
-  /** Order of concern, 1 being most concerning. */
-  concern_level: number;
-  /** A very short, simple explanation of the red flag (1-2 sentences, everyday words). */
-  description: string;
-}
+// interface RedFlagItem {
+//   /** Order of concern, 1 being most concerning. */
+//   concern_level: number;
+//   /** A very short, simple explanation of the red flag (1-2 sentences, everyday words). */
+//   description: string;
+// }
 
-interface ProductAnalysisOutput {
-  /** The name of the product analyzed. */
-  entity_name: string;
-  /** Specifies that the analysis is for a product. */
-  analyzed_for: "product";
-  /** The name of the company that makes the product. */
-  company_name: string;
-  /** The policy page URL provided by the user for analysis, if any. */
-  input_url_provided?: string | null; // Assuming URL can be a string
-  /** A publicly accessible URL for the product logo/icon, or null if not found. */
-  icon_url?: string | null; // Assuming URL can be a string
-  /** True if policies were found and analyzed, false otherwise. */
-  policies_found: boolean;
-  /** The direct URL of the Terms of Service document found, or null. */
-  tos_url?: string | null; // Assuming URL can be a string
-  /** The direct URL of the Privacy Policy document found, or null. */
-  privacy_policy_url?: string | null; // Assuming URL can be a string
-  /** Suggested alternatives or a message if policies were not found at the provided URL. Null if policies were found. */
-  suggestions_if_not_found?: string[] | string | null;
-  /** A list of red flags, ordered from most to least concerning by concern_level. Null if policies were not found. */
-  red_flags?: RedFlagItem[] | null;
-  /** Overall consumer-friendliness grade (S, A, B, C). Null if policies were not found. */
-  consumer_friendliness_grade?: "S" | "A" | "B" | "C" | null;
-}
+// interface ProductAnalysisOutput {
+//   /** The name of the product analyzed. */
+//   entity_name: string;
+//   /** Specifies that the analysis is for a product. */
+//   analyzed_for: "product";
+//   /** The name of the company that makes the product. */
+//   company_name: string;
+//   /** The policy page URL provided by the user for analysis, if any. */
+//   input_url_provided?: string | null; // Assuming URL can be a string
+//   /** A publicly accessible URL for the product logo/icon, or null if not found. */
+//   icon_url?: string | null; // Assuming URL can be a string
+//   /** True if policies were found and analyzed, false otherwise. */
+//   policies_found: boolean;
+//   /** The direct URL of the Terms of Service document found, or null. */
+//   tos_url?: string | null; // Assuming URL can be a string
+//   /** The direct URL of the Privacy Policy document found, or null. */
+//   privacy_policy_url?: string | null; // Assuming URL can be a string
+//   /** Suggested alternatives or a message if policies were not found at the provided URL. Null if policies were found. */
+//   suggestions_if_not_found?: string[] | string | null;
+//   /** A list of red flags, ordered from most to least concerning by concern_level. Null if policies were not found. */
+//   red_flags?: RedFlagItem[] | null;
+//   /** Overall consumer-friendliness grade (S, A, B, C). Null if policies were not found. */
+//   consumer_friendliness_grade?: "S" | "A" | "B" | "C" | null;
+// }
 
-export interface CompanyAnalysisOutput {
-  /** The name of the company analyzed. */
-  entity_name: string;
-  /** Specifies that the analysis is for a company's general policies. */
-  analyzed_for: "company";
-  /** The policy page URL provided by the user for analysis, if any. */
-  input_url_provided?: string | null; // Assuming URL can be a string
-  /** A publicly accessible URL for the company logo/icon, or null if not found. */
-  icon_url?: string | null; // Assuming URL can be a string
-  /** True if policies were found and analyzed, false otherwise. */
-  policies_found: boolean;
-  /** The direct URL of the Terms of Service document found, or null. */
-  tos_url?: string | null; // Assuming URL can be a string
-  /** The direct URL of the Privacy Policy document found, or null. */
-  privacy_policy_url?: string | null; // Assuming URL can be a string
-  /** Suggested alternatives or a message if policies were not found at the provided URL. Null if policies were found. */
-  suggestions_if_not_found?: string[] | string | null;
-  /** A list of red flags, ordered from most to least concerning by concern_level. Null if policies were not found. */
-  red_flags?: RedFlagItem[] | null;
-  /** Overall consumer-friendliness grade (S, A, B, C). Null if policies were not found. */
-  consumer_friendliness_grade?: "S" | "A" | "B" | "C" | null;
-}
+// export interface CompanyAnalysisOutput {
+//   /** The name of the company analyzed. */
+//   entity_name: string;
+//   /** Specifies that the analysis is for a company's general policies. */
+//   analyzed_for: "company";
+//   /** The policy page URL provided by the user for analysis, if any. */
+//   input_url_provided?: string | null; // Assuming URL can be a string
+//   /** A publicly accessible URL for the company logo/icon, or null if not found. */
+//   icon_url?: string | null; // Assuming URL can be a string
+//   /** True if policies were found and analyzed, false otherwise. */
+//   policies_found: boolean;
+//   /** The direct URL of the Terms of Service document found, or null. */
+//   tos_url?: string | null; // Assuming URL can be a string
+//   /** The direct URL of the Privacy Policy document found, or null. */
+//   privacy_policy_url?: string | null; // Assuming URL can be a string
+//   /** Suggested alternatives or a message if policies were not found at the provided URL. Null if policies were found. */
+//   suggestions_if_not_found?: string[] | string | null;
+//   /** A list of red flags, ordered from most to least concerning by concern_level. Null if policies were not found. */
+//   red_flags?: RedFlagItem[] | null;
+//   /** Overall consumer-friendliness grade (S, A, B, C). Null if policies were not found. */
+//   consumer_friendliness_grade?: "S" | "A" | "B" | "C" | null;
+// }
 
 export const ProductAnalysisOutputSchema = `
 {

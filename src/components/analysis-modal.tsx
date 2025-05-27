@@ -218,7 +218,12 @@ export function AnalysisModal({
                 size="sm"
                 className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
               >
-                <a href={analysis.tosUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center space-x-2 py-2">
+                <a
+                  href={analysis.tosUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center space-x-2 py-2"
+                >
                   <ExternalLink className="h-4 w-4" />
                   <span>View Terms of Service</span>
                 </a>
@@ -230,19 +235,17 @@ export function AnalysisModal({
                 size="sm"
                 className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
               >
-                <a href={analysis.privacyPolicyUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center space-x-2 py-2">
+                <a
+                  href={analysis.privacyPolicyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center space-x-2 py-2"
+                >
                   <ExternalLink className="h-4 w-4" />
                   <span>View Privacy Policy</span>
                 </a>
               </Button>
             )}
-            <Button
-              size="sm"
-              className="flex-1 bg-gray-700 hover:bg-gray-600 text-white"
-              onClick={() => navigator.clipboard.writeText(window.location.href)}
-            >
-              <span>Share Analysis</span>
-            </Button>
           </div>
         </div>
       </DialogContent>
