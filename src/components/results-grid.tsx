@@ -15,13 +15,17 @@ export function ResultsGrid({ results, onViewDetails }: ResultsGridProps) {
 
   return (
     <div className="w-full max-w-6xl mx-auto">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+      <div className="flex overflow-x-auto space-x-6 snap-x snap-mandatory md:grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 md:gap-6 md:space-x-0">
         {results.map((result, index) => (
-          <ServiceCard
+          <div
             key={`${result.company}-${result.product || "general"}-${index}`}
-            analysis={result}
-            onViewDetails={() => onViewDetails?.(result)}
-          />
+            className="flex-shrink-0 snap-center w-[80%] md:w-auto"
+          >
+            <ServiceCard
+              analysis={result}
+              onViewDetails={() => onViewDetails?.(result)}
+            />
+          </div>
         ))}
       </div>
     </div>
