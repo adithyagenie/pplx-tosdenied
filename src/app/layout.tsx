@@ -8,7 +8,7 @@ import { PWAProvider } from "@/components/pwa-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "TOS Summarizer - Terms of Service Didn't Read",
+  title: "TOS Summarizer - Terms of Service Declined",
   description:
     "Analyze Terms of Service and Privacy Policies to understand what you're agreeing to",
   manifest: "/manifest.json",
@@ -23,13 +23,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "TOS Summarizer",
-    title: "TOS Summarizer - Terms of Service Didn't Read",
+    title: "TOS Summarizer - Terms of Service Declined",
     description:
       "Analyze Terms of Service and Privacy Policies to understand what you're agreeing to",
   },
   twitter: {
     card: "summary",
-    title: "TOS Summarizer - Terms of Service Didn't Read",
+    title: "TOS Summarizer - Terms of Service Declined",
     description:
       "Analyze Terms of Service and Privacy Policies to understand what you're agreeing to",
   },
