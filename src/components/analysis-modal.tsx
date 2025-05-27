@@ -17,6 +17,10 @@ import {
 } from "lucide-react";
 import type { AnalysisResult } from "@/lib/types";
 import { useState, useEffect } from "react";
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
+import rehypeSanitize from 'rehype-sanitize';
 
 interface AnalysisModalProps {
   analysis: AnalysisResult | null;
@@ -226,9 +230,16 @@ export function AnalysisModal({
                             {getSeverityLabel(flag.severity)}
                           </Badge>
                         </div>
-                        <p className="text-gray-200 leading-relaxed">
-                          {flag.text}
-                        </p>
+                        <ReactMarkdown
+                          children={flag.text}
+                          remarkPlugins={[remarkGfm]}
+                          rehypePlugins={[rehypeRaw, rehypeSanitize]}
+                          components={{
+                            p: ({ node, ...props }) => (
+                              <p className="text-gray-200 leading-relaxed" {...props} />
+                            ),
+                          }}
+                        />
                       </div>
                     </div>
                   </div>
