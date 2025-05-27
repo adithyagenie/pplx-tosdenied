@@ -1,6 +1,6 @@
 {
-  "name": "TOS Summarizer",
-  "short_name": "TOS Summarizer",
+  "name": "TOSDeclined",
+  "short_name": "TOSDeclined",
   "description": "Analyze Terms of Service and Privacy Policies",
   "start_url": "/",
   "display": "standalone",

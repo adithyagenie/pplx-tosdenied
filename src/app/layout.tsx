@@ -8,32 +8,32 @@ import { PWAProvider } from "@/components/pwa-provider";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: '--font-poppins',
+  variable: "--font-poppins",
 });
 
 export const metadata: Metadata = {
-  title: "TOS Summarizer - Terms of Service Declined",
+  title: "TOSDeclined",
   description:
     "Analyze Terms of Service and Privacy Policies to understand what you're agreeing to",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "TOS Summarizer",
+    title: "TOSDeclined",
   },
   formatDetection: {
     telephone: false,
   },
   openGraph: {
     type: "website",
-    siteName: "TOS Summarizer",
-    title: "TOS Summarizer - Terms of Service Declined",
+    siteName: "TOSDeclined",
+    title: "TOSDeclined",
     description:
       "Analyze Terms of Service and Privacy Policies to understand what you're agreeing to",
   },
   twitter: {
     card: "summary",
-    title: "TOS Summarizer - Terms of Service Declined",
+    title: "TOSDeclined",
     description:
       "Analyze Terms of Service and Privacy Policies to understand what you're agreeing to",
   },
@@ -53,12 +53,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-  <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth">
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/icon-192x192.png" />
       </head>
-  <body className={poppins.className}>
+      <body className={poppins.className}>
         {children}
         <PWAProvider />
         <Toaster />
