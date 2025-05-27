@@ -16,6 +16,7 @@ import {
   Calendar,
 } from "lucide-react";
 import type { AnalysisResult } from "@/lib/types";
+import { useState, useEffect } from "react";
 
 interface AnalysisModalProps {
   analysis: AnalysisResult | null;
@@ -28,6 +29,24 @@ export function AnalysisModal({
   isOpen,
   onClose,
 }: AnalysisModalProps) {
+  // track image validity and errors; hooks must be called unconditionally
+  const [imageError, setImageError] = useState(false);
+  const [validImage, setValidImage] = useState<boolean>(Boolean(analysis?.iconUrl));
+  useEffect(() => {
+    const url = analysis?.iconUrl;
+    if (!url) {
+      setValidImage(false);
+      return;
+    }
+    setValidImage(true);
+    setImageError(false);
+    fetch(url, { method: 'HEAD' })
+      .then(res => {
+        const ct = res.headers.get('content-type')?.toLowerCase() || '';
+        if (ct.startsWith('text/html')) setValidImage(false);
+      })
+      .catch(() => {});
+  }, [analysis?.iconUrl]);
   if (!analysis) return null;
 
   const getGradeColor = (grade: string) => {
@@ -103,10 +122,19 @@ export function AnalysisModal({
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-lg font-bold">
-                  {analysis.company.charAt(0).toUpperCase()}
-                </span>
+              <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center overflow-hidden">
+                {analysis.iconUrl && validImage && !imageError ? (
+                  <img
+                    src={analysis.iconUrl}
+                    alt={`${analysis.product || analysis.company} logo`}
+                    className="object-cover w-full h-full"
+                    onError={() => setImageError(true)}
+                  />
+                ) : (
+                  <span className="text-lg font-bold text-white">
+                    {analysis.company.charAt(0).toUpperCase()}
+                  </span>
+                )}
               </div>
               <div>
                 <h2 className="text-xl font-bold">

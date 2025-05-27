@@ -70,19 +70,26 @@ export function ServiceCard({ analysis, onViewDetails }: ServiceCardProps) {
   };
 
   const [imageError, setImageError] = useState(false);
-  const [validImage, setValidImage] = useState<boolean | null>(null);
+  const [validImage, setValidImage] = useState<boolean>(Boolean(analysis.iconUrl));
+  // On URL change, reset validity and error; reject only if HEAD indicates an HTML page
   useEffect(() => {
     const url = analysis.iconUrl;
     if (!url) {
       setValidImage(false);
       return;
     }
+    setValidImage(true);
+    setImageError(false);
     fetch(url, { method: "HEAD" })
       .then((res) => {
-        const ct = res.headers.get("content-type") || "";
-        setValidImage(res.ok && ct.startsWith("image/"));
+        const ct = res.headers.get("content-type")?.toLowerCase() || "";
+        if (ct.startsWith("text/html")) {
+          setValidImage(false);
+        }
       })
-      .catch(() => setValidImage(false));
+      .catch(() => {
+        // ignore errors, keep optimistic validity
+      });
   }, [analysis.iconUrl]);
   return (
     <Card className="w-full bg-gray-900 border-gray-800 text-white">
@@ -94,8 +101,6 @@ export function ServiceCard({ analysis, onViewDetails }: ServiceCardProps) {
                 <img
                   src={analysis.iconUrl}
                   alt={`${analysis.product || analysis.company} logo`}
-                  width={32}
-                  height={32}
                   className="object-cover"
                   onError={() => setImageError(true)}
                 />
