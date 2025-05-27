@@ -7,6 +7,7 @@ import {
 import { extractValidJson } from "./utils";
 
 const PERPLEXITY_API_URL = "https://api.perplexity.ai/chat/completions";
+const PERPLEXITY_MODEL = process.env.PERPLEXITY_MODEL || "sonar-reasoning-pro";
 
 export async function analyzeWithPerplexity(
   company: string,
@@ -33,7 +34,7 @@ export async function analyzeWithPerplexity(
   // console.log(`[Perplexity API] Prompt: ${prompt}`);
 
   const requestBody = {
-    model: "sonar-reasoning-pro",
+    model: PERPLEXITY_MODEL,
     messages: [
       {
         role: "user",

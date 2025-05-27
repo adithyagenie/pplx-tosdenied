@@ -112,13 +112,26 @@ export default function HomePage() {
             <p className="mt-4 text-gray-400">
               <RotatingText
                 texts={[
-                  "Analyzing terms...",
+                  "Searching for terms...",
+                  "Searching for privacy policies...",
+                  "Analyzing terms of service...",
                   "Analyzing privacy policies...",
-                  "Reviewing terms...",
+                  "Reviewing terms of service...",
                   "Reviewing privacy policies...",
                   "Consolidating results....",
                   "Grading policies...",
                   "Identifying red flags...",
+                  "Running deep research...",
+                  "Finding additional sources...",
+                  "Compiling analysis...",
+                  "Preparing results...",
+                  "Finalizing analysis...",
+                  "Almost done...",
+                  "Just a moment...",
+                  "Hang tight...",
+                  "We&apos;re on it...",
+                  "Your results are coming...",
+                  "Processing your request...",
                 ]}
               />
             </p>

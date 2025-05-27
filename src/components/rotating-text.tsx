@@ -11,7 +11,7 @@ interface RotatingTextProps {
 
 export function RotatingText({
   texts,
-  interval = 3000,
+  interval = 5000,
   fadeDuration = 500,
 }: RotatingTextProps) {
   const [index, setIndex] = useState(0);
