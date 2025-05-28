@@ -44,8 +44,8 @@ export function SearchForm({ onSearch, isLoading, searchType, onTypeChange, hide
                 type="button"
                 onClick={() => onTypeChange(type)}
                 className={`flex-1 py-2 text-center font-medium rounded ${
-                  searchType === type
-                    ? "bg-zinc-600 text-white"
+                searchType === type
+                    ? "bg-zinc-600 text-white filter drop-shadow-md"
                     : "text-gray-400 hover:bg-zinc-600"
                 }`}
               >
@@ -121,7 +121,8 @@ export function SearchForm({ onSearch, isLoading, searchType, onTypeChange, hide
             !company.trim() ||
             (searchType === "product" && !product.trim())
           }
-          className="w-full py-3 font-semibold rounded-lg text-white bg-gradient-to-r from-blue-500 to-green-400 hover:from-blue-600 hover:to-green-500 transform transition hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="filter drop-shadow-md w-full py-3 font-semibold rounded-lg text-white bg-gradient-to-r from-blue-500 to-green-400 hover:from-blue-600 hover:to-green-500 transform transition hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+          style={{ textShadow: '0 0 5px rgba(0,0,0,0.8)' }}
         >
           {isLoading ? "Analyzing..." : "Analyze Terms & Privacy"}
         </button>

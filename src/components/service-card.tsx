@@ -127,6 +127,7 @@ export function ServiceCard({ analysis, onViewDetails }: ServiceCardProps) {
           </div>
           <Badge
             className={`${getGradeColor(analysis.grade)} text-white font-bold px-3 py-1`}
+            style={{ textShadow: "0 0 5px rgba(0,0,0,0.8)" }}
           >
             Grade {analysis.grade}
           </Badge>

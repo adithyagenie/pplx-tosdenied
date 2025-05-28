@@ -167,9 +167,10 @@ export function HomeClient({
               onClick={() => setSearchType(type)}
               className={`mx-2 px-8 py-4 text-lg font-semibold rounded-lg transition-transform transform ${
                 searchType === type
-                  ? "bg-gradient-to-r from-green-400 to-blue-500 text-white shadow-lg hover:shadow-xl hover:scale-105"
+                  ? "bg-gradient-to-r from-green-400 to-blue-500 text-white filter drop-shadow-md shadow-lg hover:shadow-xl hover:scale-105"
                   : "bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white"
               }`}
+              style={{ textShadow: "0 0 5px rgba(0,0,0,0.8)" }}
             >
               {type === "company" ? "Company Analysis" : "Product Analysis"}
             </button>
@@ -184,7 +185,7 @@ export function HomeClient({
             <span>See our curated analysis examples below or</span>
             <a
               href="#search-form"
-              className="px-5 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform transition hover:scale-105"
+              className="filter drop-shadow-md px-5 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform transition hover:scale-105"
             >
               Try Your Own&nbsp;
               <ArrowRight className="inline h-4 w-4" />
