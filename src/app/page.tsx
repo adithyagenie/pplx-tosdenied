@@ -3,6 +3,7 @@ import type { CachedAnalysis } from "@/lib/types";
 import { HomeClient } from "@/components/home-client";
 import { WithId } from "mongodb";
 
+export const dynamic = 'force-dynamic';
 export default async function HomePage() {
   const db = await getDatabase();
   const collection = db.collection<CachedAnalysis>("analyses");
