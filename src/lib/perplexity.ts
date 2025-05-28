@@ -7,7 +7,6 @@ import {
 import { extractValidJson } from "./utils";
 
 const PERPLEXITY_API_URL = "https://api.perplexity.ai/chat/completions";
-const PERPLEXITY_MODEL = process.env.PERPLEXITY_MODEL || "sonar-reasoning-pro";
 
 export async function analyzeWithPerplexity(
   company: string,
@@ -34,7 +33,7 @@ export async function analyzeWithPerplexity(
   // console.log(`[Perplexity API] Prompt: ${prompt}`);
 
   const requestBody = {
-    model: PERPLEXITY_MODEL,
+    model: "sonar-deep-research",
     messages: [
       {
         role: "user",
@@ -99,7 +98,6 @@ export async function analyzeWithPerplexity(
   }
 }
 
-// Internal raw response type from Perplexity API before mapping to AnalysisResult
 interface RawPerplexityFlag {
   concern_level: number;
   description: string;
